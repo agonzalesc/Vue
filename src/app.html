@@ -94,6 +94,7 @@
         :toggle="toggleSidebar"
         :cart="cart"
         :inventory ="inventory"
+        :remove="removeItem"
       />
      
       <footer>
@@ -129,6 +130,10 @@
           // Método que funciona como interruptor para alternar la barra lateral 
           toggleSidebar(){
             this.showSidebar = !this.showSidebar
+          },
+          // Método para hacer que la equis de los alimentos en el carrito funcione
+          removeItem(name){
+            delete this.cart[name]
           }
       },
       async mounted(){
@@ -143,7 +148,7 @@
       // Creando el componente para la barra lateral de carrito de compras
       app.component('sidebar', {
         // Apoyo para el la alternancia del sidebar //Tener acceso al carrito de cada alimento
-        props: ['toggle','cart', 'inventory'],
+        props: ['toggle','cart', 'inventory', 'remove'],
       
         methods:{
           // Acceder al inventario para encontrar los precios de cada alimento
@@ -153,7 +158,7 @@
             })
             return product.price.USD
           },
-          // Calcular el valor total de los productos en el carrito
+          // Calcular el valor total de los productos en el carrito, clave y valor cada que se recorre
           calculateTotal() {
             const total = Object.entries(this.cart).reduce((acc, curr, index) => {
               return acc + (curr[1] * this.getPrice(curr[0]))
@@ -197,7 +202,7 @@
                       <td> \${{quantity * getPrice(key)}}</td>
                       <td class="center">
 
-                        <button class="btn btn-light cart-remove">
+                        <button @click="remove(key)" class="btn btn-light cart-remove">
                           &times;
                         </button>
                       </td>
@@ -205,7 +210,7 @@
                   </tbody>
                 </table>
 
-                <p class="center"><em>No items in cart</em></p>
+                <p class="center" v-if="!Object.keys(cart).length"><em>No items in cart</em></p>
                 <div class="spread">
                   <span><strong>Total:</strong> \${{calculateTotal ()}} </span>
                   <button class="btn btn-light">Checkout</button>
