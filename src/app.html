@@ -69,7 +69,8 @@
                     <label>Quantity:</label>
                   </div>
                   <div class="cell">
-                    <input type="number" v-model.number="inventory.carrots">
+                    <!-- Llevar el orden del inventario usando modelo de vue.number permite que no se convierta en una cadena de numeros -->
+                    <input type="number" v-model.number="inventory.carrots"> 
                   </div>
                 </div>
               </form>
@@ -166,24 +167,30 @@
 
     </div>
       
-    <script src="https://unpkg.com/vue@next"></script>
+    <!-- Enlace de Vue -->
+    <script src="https://unpkg.com/vue@next"></script> 
     <script>
       let app = Vue.createApp({
         data() {
           return {
-            inventory: {
-              carrots: 0,
+            // Seguimiento del inventario
+            inventory: { 
+              // Valores representados en quantity
+              carrots: 0, 
               pineapples: 0,
               cherries: 0
             },
-            cart: {
+            // Almacenar que alimentos hay en el carrito de compra
+            cart: { 
               carrots: 0,
               pineapples: 0,
               cherries: 0
             }
           }
         },
-        methods: {
+        methods: { 
+          // Metodo para agrgar la cantidad de alimentos al carriot, se deben tener en cuenta las cantidades
+          // Recibe tipo de alimento y cantidad de este
           addToCart(type) {
             this.cart[type] += this.inventory[type]
             console.log(this.cart)
