@@ -21,9 +21,10 @@
             <span>Past Orders</span>
           </a>
         </nav>
-        <a href="#" class="top-bar-cart-link">
+        <!-- Para0 hacer el botón del carrito dinámico -->
+        <a @click="toggleSidebar" class="top-bar-cart-link">
           <i class="icofont-cart-alt icofont-1x"></i>
-          <span>Cart (0)</span>
+          <span>Cart ({{totalQuantity}})</span>
         </a>
       </header>
 
@@ -261,7 +262,19 @@
         </div>
       </main>
 
+      <!--Componente personalizado de la barra lateral  -->
+      <sidebar
+        v-if="showSidebar"
+        :toggle="toggleSidebar"
+        :cart="cart"
+        :inventory="inventory"
+        :remove="removeItem"
+      />
     </div>
 
+      <!-- Enlace de Vue -->
+      <script src="https://unpkg.com/vue@next"></script> 
+      <!--  Importamos archivo de js donde encuentra todo de side bar -->
+      <script src="../app.js"></script>
   </body>
 </html>
