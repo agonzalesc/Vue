@@ -26,7 +26,7 @@
         <!-- Agregando el método de alternancia -->
         <a @click="toggleSidebar" class="top-bar-cart-link">
           <i class="icofont-cart-alt icofont-1x"></i>
-          <span>Cart (0)</span>
+          <span>Cart ({{totalQuantity}})</span>
         </a>
       </header>
 
@@ -64,7 +64,8 @@
                     <label>Price:</label>
                   </div>
                   <div class="cell">
-                    ${{product.type.USD}}
+                    <!-- Agregar el precio correspondiente a cada alimento según el inventario -->
+                    ${{product.price.USD}}
                   </div>
                 </div>
                 <div class="row">
@@ -117,6 +118,15 @@
             cart: {}
           }
         }, 
+        
+        // Para que el numero que acompaña a cart en la interfaz de home,cambie de acuerdo a los alimentos que se agregan al carro
+        computed: {
+          totalQuantity() {
+            return Object.values(this.cart).reduce((acc, curr) => {
+              return acc + curr
+            }, 0)
+          }
+        },
 
         methods: { 
           // Metodo para agregar la cantidad de alimentos al carrito, se deben tener en cuenta las cantidades
@@ -125,6 +135,7 @@
           addToCart(name, index) {
             if (!this.cart[name]) this.cart[name] = 0
             this.cart[name] += this.inventory[index].quantity
+            this.inventory[index].quantity = 0
             
           },
           // Método que funciona como interruptor para alternar la barra lateral 
