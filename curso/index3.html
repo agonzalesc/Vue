@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue 3 basics</title>
+        <style>
+            .box{
+                background-color: pink;
+                height: 200px;
+                width: 200px;
+            }
+            .box2{
+                background-color: lightcoral;
+                height: 200px;
+                width: 200px;
+            }
+            .box3{
+                background-color: greenyellow;
+                height: 200px;
+                width: 200px;
+            }
+            [v-cloak]{
+                display: none; /*Sirve para renderizar evitando que al refrescar la pagina se vean los tres cuadrados*/
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            {{greeting}} <!Doble llave porque se analiza desde javascript por vue>
+            <input @keyup.enter="greet" v-model="greeting"/> <!Esto generta un enlace de datos bidireccionales, se maneja con v-model>
+
+            <hr/>
+
+            <button @click="CAlternancia"> Alternar </button> <!Al usar el @ es como si estuvieramos usando v-on: esto genera el evento>
+            <div v-if="isVisible" class="box"></div>
+           
+
+        </div>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script>
+            let app = Vue.createApp({
+                data: function(){
+                    return{
+                        greeting: 'Hello Vue 3',
+                        isVisible: false,
+                    }
+                }
+                methods: {
+                    cAlternancia (){
+                        this.isVisible=!this.isVisible
+                    },
+                    greet(){
+                        console.log(this.greeting)
+                    }
+                }
+            })
+            app.mount('#app')
+        </script>
+    </body>
+</html>
